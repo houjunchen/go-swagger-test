@@ -1,0 +1,344 @@
+{
+  "consumes": [
+    "application/json",
+    "application/xml"
+  ],
+  "produces": [
+    "application/json",
+    "application/xml"
+  ],
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "swagger": "2.0",
+  "info": {
+    "description": "the purpose of this application is to provide an application\nthat is using plain go code to define an API\n\nThis should demonstrate all the possible comment annotations\nthat are available to turn go code into a fully compliant swagger 2.0 spec",
+    "title": "Petstore API.",
+    "termsOfService": "there are no TOS at this moment, use at your own risk we take no responsibility",
+    "contact": {
+      "name": "John Doe",
+      "url": "http://john.doe.com",
+      "email": "aa@bb.cc"
+    },
+    "license": {
+      "name": "MIT",
+      "url": "http://opensource.org/licenses/MIT"
+    },
+    "version": "0.0.1"
+  },
+  "host": "localhost",
+  "basePath": "/v1",
+  "paths": {
+    "/health": {
+      "get": {
+        "description": "This will show all available pets by default.\nYou can get the pets that are out of stock",
+        "summary": "Lists pets filtered by some parameters.",
+        "operationId": "getHeahth",
+        "responses": {
+          "200": {
+            "description": "ResHealth",
+            "schema": {
+              "$ref": "#/definitions/ResHealth"
+            }
+          },
+          "422": {
+            "$ref": "#/responses/validationError"
+          },
+          "default": {
+            "$ref": "#/responses/genericError"
+          }
+        }
+      }
+    },
+    "/pets": {
+      "get": {
+        "description": "By default it will only lists pets that are available for sale.\nThis can be changed with the status flag.",
+        "tags": [
+          "pets"
+        ],
+        "summary": "Lists the pets known to the store.",
+        "operationId": "listPets",
+        "responses": {
+          "200": {
+            "description": "pet",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/pet"
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/responses/genericError"
+          }
+        }
+      }
+    },
+    "/products": {
+      "get": {
+        "description": "Lists all products",
+        "operationId": "getProducts",
+        "responses": {
+          "200": {
+            "description": "resProduct",
+            "schema": {
+              "$ref": "#/definitions/resProduct"
+            }
+          },
+          "422": {
+            "$ref": "#/responses/validationError"
+          },
+          "default": {
+            "$ref": "#/responses/genericError"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Event": {
+      "type": "integer",
+      "format": "int32",
+      "x-go-package": "github.com/houjunchen/go-swagger-test/models"
+    },
+    "GenericError": {
+      "description": "For certain status codes there are more appropriate error structures.",
+      "type": "object",
+      "title": "A GenericError is the default error message that is generated.",
+      "properties": {
+        "body": {
+          "description": "in: body",
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "integer",
+              "format": "int32",
+              "x-go-name": "Code"
+            },
+            "message": {
+              "type": "string",
+              "x-go-name": "Message"
+            }
+          },
+          "x-go-name": "Body"
+        }
+      },
+      "x-go-package": "github.com/houjunchen/go-swagger-test"
+    },
+    "ResHealth": {
+      "description": "It is used to describe the animals available in the store.",
+      "type": "object",
+      "title": "A Pet is the main product in the store.",
+      "required": [
+        "message"
+      ],
+      "properties": {
+        "message": {
+          "description": "The health message",
+          "type": "string",
+          "x-go-name": "Message"
+        }
+      },
+      "x-go-package": "github.com/houjunchen/go-swagger-test"
+    },
+    "ValidationError": {
+      "description": "It has the same fields as a generic error but adds a Field property.",
+      "type": "object",
+      "title": "A ValidationError is an that is generated for validation failures.",
+      "properties": {
+        "body": {
+          "description": "in: body",
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "integer",
+              "format": "int32",
+              "x-go-name": "Code"
+            },
+            "field": {
+              "type": "string",
+              "x-go-name": "Field"
+            },
+            "message": {
+              "type": "string",
+              "x-go-name": "Message"
+            }
+          },
+          "x-go-name": "Body"
+        }
+      },
+      "x-go-package": "github.com/houjunchen/go-swagger-test"
+    },
+    "pet": {
+      "description": "It is used to describe the animals available in the store.",
+      "type": "object",
+      "title": "A Pet is the main product in the store.",
+      "required": [
+        "id",
+        "name"
+      ],
+      "properties": {
+        "birthday": {
+          "description": "The pet's birthday",
+          "type": "string",
+          "format": "date",
+          "x-go-name": "Birthday"
+        },
+        "id": {
+          "description": "The id of the pet.",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ID"
+        },
+        "name": {
+          "description": "The name of the pet.",
+          "type": "string",
+          "maxLength": 50,
+          "minLength": 3,
+          "pattern": "\\w[\\w-]+",
+          "x-go-name": "Name"
+        },
+        "photoUrls": {
+          "description": "The photo urls for the pet.\nThis only accepts jpeg or png images.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "\\.(jpe?g|png)$"
+          },
+          "x-go-name": "PhotoURLs"
+        },
+        "status": {
+          "description": "The current status of the pet in the store.",
+          "type": "string",
+          "x-go-name": "Status"
+        }
+      },
+      "x-go-name": "Pet",
+      "x-go-package": "github.com/houjunchen/go-swagger-test"
+    },
+    "product": {
+      "type": "object",
+      "required": [
+        "productID",
+        "price",
+        "productPoint",
+        "earnedPoint",
+        "bonusPoint"
+      ],
+      "properties": {
+        "bonusPoint": {
+          "description": "The bonus point of this product",
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "BonusPoint"
+        },
+        "earnedPoint": {
+          "description": "The point earned by purchasing this product",
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "EarnedPoint"
+        },
+        "price": {
+          "description": "The price of the product",
+          "type": "number",
+          "format": "float",
+          "x-go-name": "Price"
+        },
+        "productID": {
+          "description": "The id of the product",
+          "type": "string",
+          "x-go-name": "ProductID"
+        },
+        "productPoint": {
+          "description": "The point of the product",
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "ProductPoint"
+        }
+      },
+      "x-go-name": "Product",
+      "x-go-package": "github.com/houjunchen/go-swagger-test/models"
+    },
+    "resProduct": {
+      "description": "Response struct for products",
+      "type": "object",
+      "required": [
+        "event",
+        "msg"
+      ],
+      "properties": {
+        "event": {
+          "$ref": "#/definitions/Event"
+        },
+        "msg": {
+          "description": "Message for this product",
+          "type": "string",
+          "x-go-name": "Msg"
+        },
+        "products": {
+          "description": "Nested struct of products",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/product"
+          },
+          "x-go-name": "Products"
+        }
+      },
+      "x-go-name": "ResProduct",
+      "x-go-package": "github.com/houjunchen/go-swagger-test/models"
+    }
+  },
+  "responses": {
+    "genericError": {
+      "description": "A GenericError is the default error message that is generated.\nFor certain status codes there are more appropriate error structures.",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32",
+            "x-go-name": "Code"
+          },
+          "message": {
+            "type": "string",
+            "x-go-name": "Message"
+          }
+        }
+      }
+    },
+    "validationError": {
+      "description": "A ValidationError is an that is generated for validation failures.\nIt has the same fields as a generic error but adds a Field property.",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32",
+            "x-go-name": "Code"
+          },
+          "field": {
+            "type": "string",
+            "x-go-name": "Field"
+          },
+          "message": {
+            "type": "string",
+            "x-go-name": "Message"
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "api_key": {
+      "type": "apiKey",
+      "name": "KEY",
+      "in": "header"
+    }
+  },
+  "security": [
+    {
+      "api_key": []
+    }
+  ]
+}

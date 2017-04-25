@@ -1,0 +1,52 @@
+// To build the proto files, use `make proto`
+syntax = "proto3";
+package product;
+
+enum Event {
+    NONE = 0;
+    FIRST_PURCHASE = 1;
+}
+
+// swagger:model product
+message Product {
+    // The id of the product
+    //
+    // required: true
+    string productID = 1;
+
+    // The price of the product
+    //
+    // required: true
+    float price = 2;
+
+    // The point of the product
+    //
+    // required: true
+    int32 productPoint = 3;
+
+    // The point earned by purchasing this product
+    //
+    // required: true
+    int32 earnedPoint = 4;
+
+    // The bonus point of this product
+    //
+    // required: true
+    int32 bonusPoint =5;
+}
+
+// swagger:model resProduct
+message ResProduct {
+    // The event type
+    //
+    // required: true
+    Event event = 1;
+
+    // Message for this product
+    //
+    // required: true
+    string msg = 2;
+
+    // Nested struct of products
+    repeated Product products = 3;
+}
