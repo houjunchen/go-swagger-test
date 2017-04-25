@@ -35,7 +35,7 @@
 //          in: header
 //
 // swagger:meta
-//go:generate swagger generate spec -o swagger.json
+//go:generate swagger generate spec -m -o swagger.json
 package main
 
 import (
