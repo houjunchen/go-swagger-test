@@ -1,3 +1,5 @@
+Example of [go-swagger](https://goswagger.io/) and [gin](https://github.com/gin-gonic/gin)
+
 #### Generate model from proto
 
 ```Shell
