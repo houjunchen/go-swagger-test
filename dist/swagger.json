@@ -1,0 +1,1357 @@
+{
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "swagger": "2.0",
+  "info": {
+    "description": "the purpose of this application is to provide an application\nthat is using plain go code to define an API",
+    "title": "17.Media API.",
+    "contact": {
+      "name": "Abner Chen",
+      "email": "abner@17.media"
+    },
+    "license": {
+      "name": "MIT",
+      "url": "http://opensource.org/licenses/MIT"
+    },
+    "version": "0.0.1"
+  },
+  "host": "localhost",
+  "basePath": "/v1",
+  "paths": {
+    "/liveStreams/getLiveStreamInfo": {
+      "get": {
+        "operationId": "getLiveStreamInfo",
+        "responses": {
+          "200": {
+            "description": "stream",
+            "schema": {
+              "$ref": "#/definitions/stream"
+            }
+          },
+          "420": {
+            "description": "validationError",
+            "schema": {
+              "$ref": "#/definitions/validationError"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Balance": {
+      "type": "object",
+      "properties": {
+        "amount": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Amount"
+        },
+        "currency": {
+          "$ref": "#/definitions/Currency"
+        }
+      },
+      "x-go-package": "github.com/17media/api/models/money"
+    },
+    "BetChips": {
+      "description": "BetChips to win or gain chips",
+      "x-go-package": "github.com/17media/api/models/game"
+    },
+    "ClanRelation": {
+      "description": "ClanRelation is clan relation for the user",
+      "type": "object",
+      "properties": {
+        "displayClans": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DisplayClan"
+          },
+          "x-go-name": "DisplayClan"
+        },
+        "joinCount": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "JoinCount"
+        }
+      },
+      "x-go-package": "github.com/17media/api/models"
+    },
+    "CreateRTMP": {
+      "description": "CreateRTMP is part of CreateRes",
+      "type": "object",
+      "properties": {
+        "liveStreamID": {
+          "type": "string",
+          "x-go-name": "LiveStreamID"
+        },
+        "publicIP": {
+          "type": "string",
+          "x-go-name": "PublicIP"
+        },
+        "rtmpURL": {
+          "type": "string",
+          "x-go-name": "RTMPURL"
+        }
+      },
+      "x-go-package": "github.com/17media/api/models"
+    },
+    "CreateWebRTC": {
+      "description": "CreateWebRTC is part of CreateRes",
+      "type": "object",
+      "properties": {
+        "liveStreamID": {
+          "type": "string",
+          "x-go-name": "LiveStreamID"
+        },
+        "publicIP": {
+          "type": "string",
+          "x-go-name": "PublicIP"
+        },
+        "sdp": {
+          "type": "string",
+          "x-go-name": "Sdp"
+        }
+      },
+      "x-go-package": "github.com/17media/api/models"
+    },
+    "Currency": {
+      "type": "integer",
+      "format": "int32",
+      "x-go-package": "github.com/17media/api/models/money"
+    },
+    "DisplayClan": {
+      "description": "DisplayClan is clan display",
+      "type": "object",
+      "properties": {
+        "clanID": {
+          "type": "string",
+          "x-go-name": "ClanID"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "type": {
+          "$ref": "#/definitions/displayType"
+        }
+      },
+      "x-go-package": "github.com/17media/api/models"
+    },
+    "DisplayUser": {
+      "description": "DisplayUser show displayName and picture userID",
+      "type": "object",
+      "properties": {
+        "displayName": {
+          "type": "string",
+          "x-go-name": "DisplayName"
+        },
+        "level": {
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "Level"
+        },
+        "picture": {
+          "type": "string",
+          "x-go-name": "Picture"
+        },
+        "userID": {
+          "type": "string",
+          "x-go-name": "UserID"
+        }
+      },
+      "x-go-package": "github.com/17media/api/models/game"
+    },
+    "Enter": {
+      "description": "Enter is part of EnterRes",
+      "type": "object",
+      "properties": {
+        "bufferedNumberOfChunks": {
+          "description": "Below two are deprecated, and only used for android",
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "BufferdNumberOfChunks"
+        },
+        "canChat": {
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "CanChat"
+        },
+        "colorCode": {
+          "type": "string",
+          "x-go-name": "ColorCode"
+        },
+        "message": {
+          "type": "string",
+          "x-go-name": "Message"
+        },
+        "numberOfChunks": {
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "NumberOfChunks"
+        },
+        "publicIP": {
+          "type": "string",
+          "x-go-name": "PublicIP"
+        },
+        "result": {
+          "type": "string",
+          "x-go-name": "Result"
+        },
+        "streamerRegion": {
+          "type": "string",
+          "x-go-name": "StreamerRegion"
+        },
+        "timestamp": {
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "Timestamp"
+        }
+      },
+      "x-go-package": "github.com/17media/api/models"
+    },
+    "EnterAnimation": {
+      "description": "EnterAnimation defines enter animation for an user",
+      "type": "integer",
+      "format": "int32",
+      "x-go-package": "github.com/17media/api/models"
+    },
+    "Error_ErrorCode": {
+      "type": "integer",
+      "format": "int32",
+      "x-go-package": "github.com/17media/api/models"
+    },
+    "Event": {
+      "type": "integer",
+      "format": "int32",
+      "x-go-package": "github.com/17media/api/models/point"
+    },
+    "FilterMode": {
+      "description": "NetworkType is the network type of client",
+      "type": "integer",
+      "format": "int32",
+      "x-go-package": "github.com/17media/api/models"
+    },
+    "HasRestreamed": {
+      "description": "HasRestreamed is part of HasRestreamRes",
+      "type": "object",
+      "properties": {
+        "hasRestreamed": {
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "HasRestreamed"
+        }
+      },
+      "x-go-package": "github.com/17media/api/models"
+    },
+    "IDOdds": {
+      "description": "IDOdds return to client ID to Odds",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "ID"
+        },
+        "odds": {
+          "type": "number",
+          "format": "double",
+          "x-go-name": "Odds"
+        },
+        "order": {
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "Order"
+        }
+      },
+      "x-go-package": "github.com/17media/api/models/game"
+    },
+    "Info": {
+      "description": "Info is one game related info",
+      "type": "object",
+      "properties": {
+        "endTime": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "EndTime"
+        },
+        "gameID": {
+          "type": "string",
+          "x-go-name": "GameID"
+        },
+        "liveStreamID": {
+          "type": "string",
+          "x-go-name": "StreamID"
+        },
+        "minBet": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "MinBet"
+        },
+        "monthlyWager": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "MonthlyWager"
+        },
+        "oneClick": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "OneClick"
+        },
+        "orderToIDOdds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/IDOdds"
+          },
+          "x-go-name": "OrderToIDOdds"
+        },
+        "recentResult": {
+          "type": "object",
+          "x-go-name": "RecentResult"
+        },
+        "result": {
+          "type": "object",
+          "x-go-name": "Result"
+        },
+        "startTime": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "StartTime"
+        },
+        "status": {
+          "$ref": "#/definitions/Status"
+        },
+        "totalIN": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "TotalIN"
+        },
+        "totalOut": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "TotalOut"
+        },
+        "type": {
+          "$ref": "#/definitions/Type"
+        },
+        "userID": {
+          "type": "string",
+          "x-go-name": "UserID"
+        },
+        "wagerList": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/UserWager"
+          },
+          "x-go-name": "WagerList"
+        }
+      },
+      "x-go-package": "github.com/17media/api/models/game"
+    },
+    "KeepStream": {
+      "description": "KeepStream is part of KeepStreamRes",
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "x-go-name": "Message"
+        },
+        "result": {
+          "type": "string",
+          "x-go-name": "Result"
+        }
+      },
+      "x-go-package": "github.com/17media/api/models"
+    },
+    "KeepView": {
+      "description": "KeepView is part of KeepViewRes",
+      "type": "object",
+      "properties": {
+        "blocked": {
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "Blocked"
+        },
+        "message": {
+          "type": "string",
+          "x-go-name": "Message"
+        },
+        "result": {
+          "type": "string",
+          "x-go-name": "Result"
+        }
+      },
+      "x-go-package": "github.com/17media/api/models"
+    },
+    "LegacyCreate": {
+      "description": "LegacyCreate is part of CreateRes",
+      "type": "object",
+      "properties": {
+        "colorCode": {
+          "type": "string",
+          "x-go-name": "ColorCode"
+        },
+        "liveStreamID": {
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "LiveStreamID"
+        },
+        "publicIP": {
+          "type": "string",
+          "x-go-name": "PublicIP"
+        },
+        "timestamp": {
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "Timestamp"
+        }
+      },
+      "x-go-package": "github.com/17media/api/models"
+    },
+    "Participant": {
+      "description": "Participant is the participant information",
+      "type": "object",
+      "properties": {
+        "createdAt": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "CreatedAt"
+        },
+        "healthCheckAt": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "HealthCheckAt"
+        },
+        "liveStreamID": {
+          "type": "string",
+          "x-go-name": "LiveStreamID"
+        },
+        "participantID": {
+          "type": "string",
+          "x-go-name": "ParticipantID"
+        },
+        "state": {
+          "type": "string",
+          "x-go-name": "State"
+        },
+        "updatedAt": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "UpdatedAt"
+        },
+        "userID": {
+          "type": "string",
+          "x-go-name": "UserID"
+        }
+      },
+      "x-go-package": "github.com/17media/api/models"
+    },
+    "ParticipantInfo": {
+      "description": "ParticipantInfo is used to tell the users about the\ninformation of publishing particiants",
+      "type": "object",
+      "properties": {
+        "rtmpUrls": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RtmpUrl"
+          },
+          "x-go-name": "RTMPUrls"
+        },
+        "userInfo": {
+          "$ref": "#/definitions/User"
+        }
+      },
+      "x-go-package": "github.com/17media/api/models"
+    },
+    "PointPurchaseEvent": {
+      "description": "PointPurchaseEvent is used to tell the information about the\npoint purchase event for specific user",
+      "type": "object",
+      "properties": {
+        "countdownSec": {
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "CountdownSec"
+        },
+        "endTime": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "EndTime"
+        },
+        "startTime": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "StartTime"
+        },
+        "type": {
+          "$ref": "#/definitions/Event"
+        }
+      },
+      "x-go-package": "github.com/17media/api/models"
+    },
+    "Region": {
+      "description": "Region is part of RegionRes",
+      "type": "object",
+      "properties": {
+        "liveCount": {
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "LiveCount"
+        },
+        "region": {
+          "type": "string",
+          "x-go-name": "Region"
+        }
+      },
+      "x-go-package": "github.com/17media/api/models"
+    },
+    "Request": {
+      "description": "Request is the request that the viewers issued to become the participant",
+      "type": "object",
+      "properties": {
+        "createdAt": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "CreatedAt"
+        },
+        "healthCheckAt": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "HealthCheckAt"
+        },
+        "liveStreamID": {
+          "type": "string",
+          "x-go-name": "LiveStreamID"
+        },
+        "requestID": {
+          "type": "string",
+          "x-go-name": "RequestID"
+        },
+        "state": {
+          "type": "string",
+          "x-go-name": "State"
+        },
+        "updatedAt": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "UpdatedAt"
+        },
+        "userID": {
+          "type": "string",
+          "x-go-name": "UserID"
+        },
+        "userInfo": {
+          "$ref": "#/definitions/User"
+        }
+      },
+      "x-go-package": "github.com/17media/api/models"
+    },
+    "RtmpProvider": {
+      "description": "RtmpProvider lists RTMP strem providers",
+      "type": "integer",
+      "format": "int32",
+      "x-go-package": "github.com/17media/api/models"
+    },
+    "RtmpUrl": {
+      "description": "RtmpUrl stores an rtmp urls and it's associated identifier key",
+      "type": "object",
+      "properties": {
+        "provider": {
+          "$ref": "#/definitions/RtmpProvider"
+        },
+        "url": {
+          "description": "url is the url to pull rtmp stream",
+          "type": "string",
+          "x-go-name": "Url"
+        }
+      },
+      "x-go-package": "github.com/17media/api/models"
+    },
+    "Status": {
+      "description": "Status define which state this game stay",
+      "type": "integer",
+      "format": "int32",
+      "x-go-package": "github.com/17media/api/models/game"
+    },
+    "Type": {
+      "description": "Type define what game we support",
+      "type": "integer",
+      "format": "int32",
+      "x-go-package": "github.com/17media/api/models/game"
+    },
+    "User": {
+      "description": "User contains all stream info",
+      "type": "object",
+      "properties": {
+        "accessToken": {
+          "type": "object",
+          "x-go-name": "AccessToken"
+        },
+        "accountFacebookID": {
+          "type": "object",
+          "x-go-name": "AccountFacebookID"
+        },
+        "adminClass": {
+          "type": "object",
+          "x-go-name": "AdminClass"
+        },
+        "adsOn": {
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "AdsOn"
+        },
+        "age": {
+          "type": "object",
+          "x-go-name": "Age"
+        },
+        "alipayPhone": {
+          "type": "object",
+          "x-go-name": "AlipayPhone"
+        },
+        "balance": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Balance"
+          },
+          "x-go-name": "Balance"
+        },
+        "baller": {
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "Baller"
+        },
+        "bio": {
+          "type": "object",
+          "x-go-name": "Bio"
+        },
+        "blockTime": {
+          "type": "object",
+          "x-go-name": "BlockTime"
+        },
+        "chatMuteDuration": {
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "ChatMute"
+        },
+        "clanInfo": {
+          "$ref": "#/definitions/ClanRelation"
+        },
+        "clanStatus": {
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "ClanStatus"
+        },
+        "commentBadge": {
+          "type": "object",
+          "x-go-name": "CommentBadge"
+        },
+        "countryCallingCode": {
+          "type": "object",
+          "x-go-name": "CountryCallingCode"
+        },
+        "coverPhoto": {
+          "type": "object",
+          "x-go-name": "CoverPhoto"
+        },
+        "createClanID": {
+          "type": "string",
+          "x-go-name": "CreateClanID"
+        },
+        "deviceModel": {
+          "type": "object",
+          "x-go-name": "DeviceModel"
+        },
+        "deviceType": {
+          "type": "string",
+          "x-go-name": "DeviceType"
+        },
+        "displayName": {
+          "description": "user identifier to display on app screen",
+          "type": "string",
+          "x-go-name": "DisplayName"
+        },
+        "email": {
+          "type": "object",
+          "x-go-name": "Email"
+        },
+        "enterAnimation": {
+          "$ref": "#/definitions/EnterAnimation"
+        },
+        "experience": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Experience"
+        },
+        "facebookAccessToken": {
+          "type": "object",
+          "x-go-name": "FacebookAccessToken"
+        },
+        "facebookID": {
+          "type": "string",
+          "x-go-name": "FacebookID"
+        },
+        "followPrivacyMode": {
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "FollowPrivacyMode"
+        },
+        "followRequestTime": {
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "FollowRequestTime"
+        },
+        "followTime": {
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "FollowTime"
+        },
+        "followerCount": {
+          "type": "object",
+          "x-go-name": "FollowerCount"
+        },
+        "followingCount": {
+          "type": "object",
+          "x-go-name": "FollowingCount"
+        },
+        "gender": {
+          "type": "object",
+          "x-go-name": "Gender"
+        },
+        "giftModuleState": {
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "GiftModuleState"
+        },
+        "instagramID": {
+          "type": "object",
+          "x-go-name": "InstagramID"
+        },
+        "internationalPhoneNumber": {
+          "type": "object",
+          "x-go-name": "InternationalPhoneNumber"
+        },
+        "isAdmin": {
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "IsAdmin"
+        },
+        "isBlocked": {
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "IsBlocked"
+        },
+        "isCelebrity": {
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "IsCelebrity"
+        },
+        "isChoice": {
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "IsChoice"
+        },
+        "isFollowing": {
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "IsFollowing"
+        },
+        "isFreezed": {
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "IsFreezed"
+        },
+        "isInternational": {
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "IsInternational"
+        },
+        "isVerified": {
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "IsVerified"
+        },
+        "language": {
+          "type": "string",
+          "x-go-name": "Language"
+        },
+        "lastLogin": {
+          "type": "object",
+          "x-go-name": "LastLogin"
+        },
+        "lastPurchasePointTime": {
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "LastPurchasePointTime"
+        },
+        "level": {
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "Level"
+        },
+        "likeBadge": {
+          "type": "object",
+          "x-go-name": "LikeBadge"
+        },
+        "likeCount": {
+          "description": "千萬不要改成INT會爆炸喔 Ryan",
+          "type": "object",
+          "x-go-name": "LikeCount"
+        },
+        "likePostCount": {
+          "type": "object",
+          "x-go-name": "LikePostCount"
+        },
+        "livePass": {
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "LivePassFlag"
+        },
+        "localPhoneNumber": {
+          "type": "object",
+          "x-go-name": "LocalPhoneNumber"
+        },
+        "messageBadge": {
+          "type": "object",
+          "x-go-name": "MessageBadge"
+        },
+        "name": {
+          "type": "object",
+          "x-go-name": "Name"
+        },
+        "notifBadge": {
+          "type": "object",
+          "x-go-name": "NotifBadge"
+        },
+        "openID": {
+          "type": "string",
+          "x-go-name": "OpenID"
+        },
+        "openIDModifyTime": {
+          "type": "object",
+          "x-go-name": "OpenIDModifyTime"
+        },
+        "packageName": {
+          "type": "object",
+          "x-go-name": "PackageName"
+        },
+        "password": {
+          "type": "object",
+          "x-go-name": "Password"
+        },
+        "password_bcrypt": {
+          "type": "object",
+          "x-go-name": "PasswordBcrypt"
+        },
+        "paypalEmail": {
+          "type": "object",
+          "x-go-name": "PaypalEmail"
+        },
+        "phoneNumber": {
+          "type": "object",
+          "x-go-name": "PhoneNumber"
+        },
+        "phoneTwoDigitISO": {
+          "type": "object",
+          "x-go-name": "PhoneTwoDigitISO"
+        },
+        "picture": {
+          "type": "string",
+          "x-go-name": "Picture"
+        },
+        "point": {
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "Point"
+        },
+        "postCount": {
+          "description": "Self Fields",
+          "type": "object",
+          "x-go-name": "PostCount"
+        },
+        "privacyFlag": {
+          "type": "object",
+          "x-go-name": "PrivacyFlag"
+        },
+        "privacyMode": {
+          "type": "string",
+          "x-go-name": "PrivacyMode"
+        },
+        "pushAcceptFollowRequest": {
+          "type": "object",
+          "x-go-name": "PushAcceptFollowRequest"
+        },
+        "pushAcceptMessageRequest": {
+          "type": "object",
+          "x-go-name": "PushAcceptMessageRequest"
+        },
+        "pushComment": {
+          "type": "object",
+          "x-go-name": "PushComment"
+        },
+        "pushFollow": {
+          "type": "object",
+          "x-go-name": "PushFollow"
+        },
+        "pushFollowRequest": {
+          "type": "object",
+          "x-go-name": "PushFollowRequest"
+        },
+        "pushFriendFirstPost": {
+          "type": "object",
+          "x-go-name": "PushFriendFirstPost"
+        },
+        "pushFriendJoin": {
+          "type": "object",
+          "x-go-name": "PushFriendJoin"
+        },
+        "pushFriendRequest": {
+          "type": "object",
+          "x-go-name": "PushFriendRequest"
+        },
+        "pushLike": {
+          "type": "object",
+          "x-go-name": "PushLike"
+        },
+        "pushLiveRestream": {
+          "type": "object",
+          "x-go-name": "PushLiveRestream"
+        },
+        "pushLiveStream": {
+          "type": "object",
+          "x-go-name": "PushLiveStream"
+        },
+        "pushMessage": {
+          "type": "object",
+          "x-go-name": "PushMessage"
+        },
+        "pushScheduleLiveStream": {
+          "type": "object",
+          "x-go-name": "PushScheduleLiveStream"
+        },
+        "pushSystemNotif": {
+          "type": "object",
+          "x-go-name": "PushSystemNotif"
+        },
+        "pushTag": {
+          "type": "object",
+          "x-go-name": "PushTag"
+        },
+        "pushToken": {
+          "type": "string",
+          "x-go-name": "PushToken"
+        },
+        "receivedLikeCount": {
+          "description": "千萬不要改成INT會爆炸喔 Ryan",
+          "type": "object",
+          "x-go-name": "ReceivedLikeCount"
+        },
+        "repostCount": {
+          "type": "object",
+          "x-go-name": "RepostCount"
+        },
+        "requestBadge": {
+          "type": "object",
+          "x-go-name": "RequestBadge"
+        },
+        "revenueShareIndicator": {
+          "type": "string",
+          "x-go-name": "RevenueShareIndicator"
+        },
+        "roomID": {
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "RoomID"
+        },
+        "subscribeExpireTime": {
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "SubscribeExpireTime"
+        },
+        "subscriberCount": {
+          "type": "object",
+          "x-go-name": "SubscriberCount"
+        },
+        "subscribingCount": {
+          "type": "object",
+          "x-go-name": "SubscribingCount"
+        },
+        "systemNotifBadge": {
+          "type": "object",
+          "x-go-name": "SystemNotifBadge"
+        },
+        "timeZoneOffset": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "TimeZoneOffset"
+        },
+        "totalGiftRevenueEarned": {
+          "type": "number",
+          "format": "float",
+          "x-go-name": "TotalGiftRevenueEarned"
+        },
+        "totalRevenueEarned": {
+          "type": "number",
+          "format": "float",
+          "x-go-name": "TotalRevenueEarned"
+        },
+        "twitterID": {
+          "type": "object",
+          "x-go-name": "TwitterID"
+        },
+        "unLockUser": {
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "UnLockUser"
+        },
+        "updateAt": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "UpdateAt"
+        },
+        "userFlag": {
+          "type": "object",
+          "x-go-name": "UserFlag"
+        },
+        "userID": {
+          "type": "string",
+          "x-go-name": "UserID"
+        },
+        "userIPs": {
+          "type": "object",
+          "x-go-name": "UserIPs"
+        },
+        "version": {
+          "type": "string",
+          "x-go-name": "Version"
+        },
+        "website": {
+          "type": "object",
+          "x-go-name": "Website"
+        }
+      },
+      "x-go-package": "github.com/17media/api/models"
+    },
+    "UserWager": {
+      "description": "UserWager use to record user wager log",
+      "type": "object",
+      "properties": {
+        "betChips": {
+          "$ref": "#/definitions/BetChips"
+        },
+        "displayUser": {
+          "$ref": "#/definitions/DisplayUser"
+        }
+      },
+      "x-go-package": "github.com/17media/api/models/game"
+    },
+    "displayType": {
+      "type": "integer",
+      "format": "int32",
+      "x-go-package": "github.com/17media/api/models"
+    },
+    "stream": {
+      "description": "Stream contains all stream info",
+      "type": "object",
+      "properties": {
+        "allowCallin": {
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "AllowCallin"
+        },
+        "audioOnly": {
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "AudioOnly"
+        },
+        "beginTime": {
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "BeginSec"
+        },
+        "campaignEndTime": {
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "CampaignEndTime"
+        },
+        "campaignIcon": {
+          "type": "string",
+          "x-go-name": "CampaignIcon"
+        },
+        "campaignShowTimer": {
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "CampaignShowTimer"
+        },
+        "campaignSize": {
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "CampaignSize"
+        },
+        "campaignTitle": {
+          "type": "string",
+          "x-go-name": "CampaignTitle"
+        },
+        "campaignURL": {
+          "type": "string",
+          "x-go-name": "CampaignURL"
+        },
+        "canSendGift": {
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "CanSendGift"
+        },
+        "canSendGiftWithTextAndVoice": {
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "CanSendGiftWithTextAndVoice"
+        },
+        "caption": {
+          "type": "string",
+          "x-go-name": "Caption"
+        },
+        "chatAvailable": {
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "ChatAvailable"
+        },
+        "closeBy": {
+          "type": "string",
+          "x-go-name": "CloseBy"
+        },
+        "coverPhoto": {
+          "type": "string",
+          "x-go-name": "CoverPhoto"
+        },
+        "duration": {
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "Duration"
+        },
+        "endTime": {
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "EndSec"
+        },
+        "filterMode": {
+          "$ref": "#/definitions/FilterMode"
+        },
+        "followerOnlyChat": {
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "FollowerOnlyChat"
+        },
+        "gameAvailableType": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Type"
+          },
+          "x-go-name": "AvaGameTypes"
+        },
+        "gameInfo": {
+          "$ref": "#/definitions/Info"
+        },
+        "giftRevenue": {
+          "type": "number",
+          "format": "double",
+          "x-go-name": "GiftRevenue"
+        },
+        "guardianPicture": {
+          "type": "string",
+          "x-go-name": "GuardianPicture"
+        },
+        "guardianUserID": {
+          "type": "string",
+          "x-go-name": "GuardianUserID"
+        },
+        "hashtag": {
+          "type": "string",
+          "x-go-name": "Hashtag"
+        },
+        "hiddenFromTimeline": {
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "HiddenFromTimeline"
+        },
+        "internalInfo": {
+          "type": "string",
+          "x-go-name": "InternalInfo"
+        },
+        "landscape": {
+          "type": "boolean",
+          "x-go-name": "Landscape"
+        },
+        "latitude": {
+          "type": "number",
+          "format": "double",
+          "x-go-name": "Latitude"
+        },
+        "liveStreamID": {
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "LiveStreamID"
+        },
+        "liveViewerCount": {
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "LiveViewerCount"
+        },
+        "locationName": {
+          "type": "object",
+          "x-go-name": "LocationName"
+        },
+        "longitude": {
+          "type": "number",
+          "format": "double",
+          "x-go-name": "Longitude"
+        },
+        "maxLiveViewerCount": {
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "MaxLiveViewerCount"
+        },
+        "maxLiveViewerSec": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "MaxLiveViewerMs"
+        },
+        "mute": {
+          "type": "boolean",
+          "x-go-name": "Mute"
+        },
+        "numberOfChunks": {
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "NumberOfChunks"
+        },
+        "participants": {
+          "description": "Obsoleted. Keep to prevent android json parsing failure",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ParticipantInfo"
+          },
+          "x-go-name": "Participants"
+        },
+        "pointPurchaseEvent": {
+          "$ref": "#/definitions/PointPurchaseEvent"
+        },
+        "privateLiveStream": {
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "PrivateLiveStream"
+        },
+        "realNowViewerCount": {
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "RealNowViewerCount"
+        },
+        "realViewerCount": {
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "RealViewerCount"
+        },
+        "receivedLikeCount": {
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "ReceivedLikeCount"
+        },
+        "region": {
+          "type": "string",
+          "x-go-name": "Region"
+        },
+        "replayAvailable": {
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "ReplayAvailable"
+        },
+        "replayCount": {
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "ReplayCount"
+        },
+        "restreamOpenID": {
+          "type": "string",
+          "x-go-name": "RestreamOpenID"
+        },
+        "restreamerOpenID": {
+          "type": "string",
+          "x-go-name": "RestreamerOpenID"
+        },
+        "revenue": {
+          "type": "number",
+          "format": "double",
+          "x-go-name": "Revenue"
+        },
+        "rtmpUrls": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RtmpUrl"
+          },
+          "x-go-name": "RtmpURLs"
+        },
+        "shareLocation": {
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "ShareLocation"
+        },
+        "specialTag": {
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "SpecialTag"
+        },
+        "streamType": {
+          "type": "string",
+          "x-go-name": "StreamType"
+        },
+        "totalViewTime": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "TotalViewSec"
+        },
+        "userID": {
+          "type": "string",
+          "x-go-name": "UserID"
+        },
+        "userInfo": {
+          "$ref": "#/definitions/User"
+        },
+        "videoCodec": {
+          "type": "string",
+          "x-go-name": "VideoCodec"
+        },
+        "viewerCount": {
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "ViewerCount"
+        }
+      },
+      "x-go-name": "Stream",
+      "x-go-package": "github.com/17media/api/models"
+    },
+    "validationError": {
+      "description": "It has the same fields as a generic error but adds a Field property.",
+      "type": "object",
+      "title": "A ValidationError is an that is generated for validation failures.",
+      "properties": {
+        "errorCode": {
+          "$ref": "#/definitions/Error_ErrorCode"
+        },
+        "errorMessage": {
+          "type": "string",
+          "x-go-name": "ErrorMessage"
+        },
+        "errorTitle": {
+          "type": "string",
+          "x-go-name": "ErrorTitle"
+        }
+      },
+      "x-go-name": "Error",
+      "x-go-package": "github.com/17media/api/models"
+    }
+  }
+}

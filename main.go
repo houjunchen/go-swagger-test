@@ -55,6 +55,17 @@ func main() {
 	router.GET("/products", GetProducts)
 	router.GET("/pets", GetPets)
 
+	router.StaticFile("/swagger-ui.css", "dist/swagger-ui.css")
+	router.StaticFile("/favicon-32x32.png", "./dist/favicon-32x32.png")
+	router.StaticFile("/favicon-16x16.png", "./dist/favicon-16x16.png")
+	router.StaticFile("/swagger-ui-bundle.js", "./dist/swagger-ui-bundle.js")
+	router.StaticFile("/swagger-ui-standalone-preset.js", "./dist/swagger-ui-standalone-preset.js")
+	router.StaticFile("/swagger.json", "./dist/swagger.json")
+	router.LoadHTMLGlob("dist/index.html")
+	router.GET("/swagger", func(c *gin.Context) {
+		c.HTML(200, "index.html", nil)
+	})
+
 	router.Run()
 }
 
